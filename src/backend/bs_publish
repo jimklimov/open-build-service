@@ -1455,7 +1455,11 @@ sub publish {
       } elsif ($bin =~ /\.(?:$binsufsre)$/) {
 	# our default
 	my $q = Build::query("$r/$rbin", 'evra' => 1);
-	$p = "$q->{'arch'}/$bin";
+	if ( defined($q) && defined($q->{'arch'}) ) {
+	    $p = "$q->{'arch'}/$bin";
+	} else {
+	    $p = "/$bin";
+	}
       } else {
 	if ($bin =~ /\.iso(?:\.sha256)?$/) {
 	  $p = "iso/$bin";
